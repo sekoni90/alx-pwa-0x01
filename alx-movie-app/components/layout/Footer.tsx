@@ -8,7 +8,7 @@ const Footer: React.FC = () => {
       <div className="flex flex-col md:flex-row justify-between items-center w-full">
         {/* Footer Logo */}
         <h2 className="text-xl md:text-4xl font-semibold mb-4 md:mb-0">
-          Cine<span className="text-[#E2D609]">Seek</span>
+          seko<span className="text-[#E2D609]">tech</span>
         </h2>
 
         <nav className="flex-1 flex justify-center space-x-6 mb-4 md:mb-0">
