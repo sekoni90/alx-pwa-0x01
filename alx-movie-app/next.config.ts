@@ -11,5 +11,17 @@ const nextConfig = {
     domains: ['m.media-amazon.com'],
   },
 };
+module.exports = {
+  turbopack: {
+    root: __dirname,
+    rules: {
+      '*.svg': {
+        loaders: ['@svgr/webpack'],
+        as: '*.js',
+      },
+    },
+  },
+};
+
 
 export default withPWA(nextConfig);
