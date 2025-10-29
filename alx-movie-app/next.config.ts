@@ -1,27 +1,28 @@
-// next.config.js (CommonJS — robust import for @ducanh2912/next-pwa)
-let withPWAInit;
+// next.config.ts
+import type { NextConfig } from "next";
+
+let withPWAInit: any;
 try {
-  // require may return { default: fn } if the package is ESM-transpiled
-  // so try to use .default if present, otherwise use the value directly.
+  // try ESM default then CJS
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
   const pkg = require("@ducanh2912/next-pwa");
   withPWAInit = pkg && pkg.default ? pkg.default : pkg;
 } catch (e) {
-  console.error("Failed to require @ducanh2912/next-pwa:", e);
-  // fallback: make a no-op that returns the config unchanged
-  withPWAInit = (opts = {}) => (config) => ({ ...config });
+  // If the package isn't present or cannot be loaded, log and provide a typed no-op fallback.
+  // The types below avoid "implicitly has an 'any' type" compile errors.
+  // withPWAInit signature: (opts?: Record<string, any>) => (config: NextConfig) => NextConfig
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  withPWAInit = (opts: Record<string, any> = {}) => (config: NextConfig): NextConfig => ({ ...config });
 }
 
 const withPWA = withPWAInit({
   dest: "public",
-  // add other PWA options if needed
 });
 
-const nextConfig = {
+const nextConfig: NextConfig = {
   reactStrictMode: true,
   images: {
     domains: ["m.media-amazon.com", "image.tmdb.org"],
-    // if you prefer patterns, use remotePatterns instead
-    // remotePatterns: [{ protocol: "https", hostname: "m.media-amazon.com", pathname: "/" }],
   },
   turbopack: {
     root: __dirname,
@@ -34,4 +35,4 @@ const nextConfig = {
   },
 };
 
-module.exports = withPWA(nextConfig);
+export default withPWA(nextConfig);
